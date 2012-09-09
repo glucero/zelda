@@ -4,9 +4,7 @@
 ## github.com/glucero
 ## glucero@gmail.com
 #
-# Example output (in mp3):
-#    https://github.com/glucero/zelda/raw/master/zelda_overworld_theme.mp3
-#    http://bit.ly/Qu6Efx
+# Example output (in mp3):  http://bit.ly/Qu6Efx
 #
 # Requirements:
 #     Ruby 1.9, the Unimidi gem and a MIDI voice synthesizer
