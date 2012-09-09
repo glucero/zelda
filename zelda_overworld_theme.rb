@@ -32,7 +32,6 @@
 
 require 'rubygems'
 require 'unimidi'
-require 'pry'
 
 ON  = 0x90                    # open MIDI channel
 OFF = 0x80                    # close MIDI channel
