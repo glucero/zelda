@@ -3,28 +3,14 @@
 ## Gino Lucero
 ## github.com/glucero
 ## glucero@gmail.com
-#
+
+## A basic MIDI instrument and the Legend of Zelda Overworld Theme
+
 # Example output (in mp3):  http://bit.ly/Qu6Efx
 #
 # Requirements:
 #     Ruby 1.9, the Unimidi gem and a MIDI voice synthesizer
 #     (if you're on OSX, you can use the Garage Band MIDI instruments)
-
-#               ▲
-#              ▲▲▲
-#             ▲▲▲▲▲
-#            ▲▲▲▲▲▲▲
-#           ▲▲▲▲▲▲▲▲▲
-#          ▲▲▲▲▲▲▲▲▲▲▲
-#         ▲▲▲▲▲▲▲▲▲▲▲▲▲
-#        ▲             ▲
-#       ▲▲▲    The    ▲▲▲
-#      ▲▲▲▲▲Legend of▲▲▲▲▲
-#     ▲▲▲▲▲▲▲ Zelda ▲▲▲▲▲▲▲
-#    ▲▲▲▲▲▲▲▲▲     ▲▲▲▲▲▲▲▲▲
-#   ▲▲▲▲▲▲▲▲▲▲▲   ▲▲▲▲▲▲▲▲▲▲▲
-#  ▲▲▲▲▲▲▲▲▲▲▲▲▲ ▲▲▲▲▲▲▲▲▲▲▲▲▲
-#       'Overworld Theme'
 
 # Wikipedia's article on MIDI: http://bit.ly/1zuIwI
 # Essentials of the MIDI protocol: http://bit.ly/P2UwPl
