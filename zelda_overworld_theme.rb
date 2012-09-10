@@ -335,6 +335,7 @@ harmony = Instrument.new C[:middle]
 counter_melody = Instrument.new C[3]
 
 # intro
+
 melody.add Bf.h, R.de, Bf.s, Bf.et, Bf.et, Bf.et
 harmony.add D[1].h, R.de, D[1].s, D[1].et, D[1].et, D[1].et
 counter_melody.add Bf.q, Bf.et, Bf.et, Bf.et, Bf.q, Bf.et, Bf.et, Bf.et
@@ -426,7 +427,7 @@ melody.add F[1].q, Df[1].h, Bf.q
 harmony.add Bf[1].q, F[1].h, Df[1].q
 counter_melody.add Bf.q, Bf.et, Bf.et, Af.et, Bf.q, Bf.et, Bf.et, Bf.et
 
-melody.add C[1].e, C[1].s, D[1].s, E[1].h, Gf[1].q
+melody.add C[1].e, C[1].s, D[1].s, E[1].h, G[1].q
 harmony.add E[1].q, E[1].de, F[1].s, G[1].e, G[1].st, G[1].st, A[1].st, Bf[1].e, C[2].e
 counter_melody.add C[1].q, C[1].et, C[1].et, C[1].et, C[1].q, C[1].et, C[1].et, C[1].et
 
