@@ -4,13 +4,13 @@
 ## github.com/glucero
 ## glucero@gmail.com
 
-## A basic MIDI instrument and the Legend of Zelda Overworld Theme
+## A basic MIDI instrument and The Legend of Zelda Overworld Theme
 
 # Example output (in mp3):  http://bit.ly/Qu6Efx
 #
 # Requirements:
 #     Ruby 1.9, the Unimidi gem and a MIDI voice synthesizer
-#     (if you're on OSX, you can use the Garage Band MIDI instruments)
+#     (if you're on OSX, you can use the Garage Band MIDI voices)
 
 # Wikipedia's article on MIDI: http://bit.ly/1zuIwI
 # Essentials of the MIDI protocol: http://bit.ly/P2UwPl
@@ -18,11 +18,6 @@
 
 require 'rubygems'
 require 'unimidi'
-
-ON  = 0x90                    # open MIDI channel
-OFF = 0x80                    # close MIDI channel
-
-VOLUME = 100                  # signal velocity (min: 0 - max: 100)
 
 C  = Bs = 0                   # define the pitch values
 Cs = Df = 1                   #
@@ -139,6 +134,11 @@ end
 
 class Note
 
+  VOLUME = 100                # signal velocity (min: 0 - max: 100)
+
+  ON  = 0x90                  # note on
+  OFF = 0x80                  # note off
+
   include ArrayContainer
 
   attr_reader :duration
@@ -164,7 +164,7 @@ class Note
     stop
   end
 
-  # start all pitches the note container.
+  # start all pitches in the note container.
   def start
     @container.each do |note|
       @voice.puts(ON, note, VOLUME) unless note.nil?
@@ -223,11 +223,6 @@ class Sequence
   #    the sequence will offset all notes (and their pitches) in the sequence
   #    by the same amount.
   #
-  #    example:
-  #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
-  #      key change G                  (offset by 7 half steps)
-  #        => [G, B, D[1], G[1]]       (GMaj Arpeggio)
-  #
   # 2. a sequence of numbers
   #    when using multiple numbers as the key change, each number in the key
   #    change should corespond with a number in the sequence. if the sequence
@@ -237,12 +232,23 @@ class Sequence
   #
   #    example:
   #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
-  #      key change [0, -1, 0, 0]
-  #        => [C, Ef, G, C[1]]         (Cm Arpeggio)
+  #      key change G                  (offset by 7 half steps)
+  #        => [G, B, D[1], G[1]]       (GMaj Arpeggio)
   #
+  #    example:
   #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
   #      key change [E]
   #        => [E, Gs, B, E[1]]         (EMaj Arpeggio)
+  #
+  #    example:
+  #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
+  #      key change [0, -1, 0, 0]
+  #        => [C, Ef, G, C[1]]         (Cm Arpeggio)
+  #
+  #    example:
+  #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
+  #      key change [0, -1, 0, 0]
+  #        => [C, Ef, G, C[1]]         (Cm Arpeggio)
   def key=(key)
     key.push(*key.dup) until key.count >= self.count
 
