@@ -144,10 +144,11 @@ class Note
   attr_reader :duration
   attr_writer :voice
 
-  # Notes need 3 things
+  # Notes need 4 things
   #   1. pitch (or pitches in the case of chords)
   #   2. duration
   #   3. voice (the instrument sound. piano/flute/trumpet/etc)
+  #   4. velocity (all notes are set to 100 by default)
   # (the note's voice isn't required during creation and can be added later)
   def initialize(duration, pitches, voice = nil)
     @duration = Meter.const_get(duration)
@@ -335,13 +336,14 @@ class Instrument
 
 end
 
-# create the three instruments needed
+# create major song pattern groups
+
+# create three instruments for the intro pattern
 melody = Instrument.new C[5]
 harmony = Instrument.new C[:middle]
 counter_melody = Instrument.new C[3]
 
 # intro
-
 melody.add Bf.h, R.de, Bf.s, Bf.et, Bf.et, Bf.et
 harmony.add D[1].h, R.de, D[1].s, D[1].et, D[1].et, D[1].et
 counter_melody.add Bf.q, Bf.et, Bf.et, Bf.et, Bf.q, Bf.et, Bf.et, Bf.et
@@ -358,7 +360,14 @@ melody.add Bf.e, F.s, F.s, F.e, F.s, F.s, F.e, F.s, F.s, F.e, F.e
 harmony.add Df[1].e, Af.s, Af.s, Af.e, Af.s, Af.s, Af.e, Af.s, Af.s, Af.e, Af.e
 counter_melody.add Gf.q, F.q, F.q, G.e, A.e
 
-# main theme (played twice)
+intro = [melody, harmony, counter_melody]
+
+# 3 more instruments for main theme pattern
+melody = Instrument.new C[5]
+harmony = Instrument.new C[:middle]
+counter_melody = Instrument.new C[3]
+
+# part 1
 melody.add Bf.q, F.dq, F.s, Bf.s, Bf.s, C[1].s, D[1].s, Ef[1].s
 harmony.add D[1].q, D[1].et, D[1].et, C[1].et, D[1].de, D[1].s, D[1].s, Ef[1].s, F[1].s, G[1].s
 counter_melody.add Bf.q, Bf.et, Bf.et, Af.et, Bf.q, Bf.q
@@ -391,8 +400,14 @@ melody.add F[1].e, F.s, F.s, F.e, F.s, F.s, F.e, F.s, F.s, F.e, F.e
 harmony.add A.e, C.s, C.s, C.e, C.s, C.s, C.e, C.s, C.s, C.e, C.e
 counter_melody.add F.q, F.q, F.q, G.e, A.e
 
-# main part 2
+part_1 = [melody, harmony, counter_melody]
 
+# 3 more instruments for 2nd part of the main theme
+melody = Instrument.new C[5]
+harmony = Instrument.new C[:middle]
+counter_melody = Instrument.new C[3]
+
+# part 2
 melody.add Bf.q, F.dq, F.s, Bf.s, Bf.s, C[1].s, D[1].s, Ef[1].s
 harmony.add D[1].q, D[1].et, D[1].et, C[1].et, D[1].de, D[1].s, D[1].s, Ef[1].s, F[1].s, G[1].s
 counter_melody.add Bf.q, Bf.et, Bf.et, Af.et, Bf.q, Bf.q
@@ -425,6 +440,14 @@ melody.add A[1].q, F[1].h, D[1].q
 harmony.add C[2].q, A[1].h, A[1].q
 counter_melody.add F[2].q, F.et, F.et, F.et, F.q, R.q
 
+part_2 = [melody, harmony, counter_melody]
+
+# what's going on here? oh...
+melody = Instrument.new C[5]
+harmony = Instrument.new C[:middle]
+counter_melody = Instrument.new C[3]
+
+# part 3
 melody.add Ef[1].h, R.q, Gf[1].q
 harmony.add Gf[1].h, R.q, B[1].q
 counter_melody.add B.q, B.et, B.et, Bf.et, B.q, B.et, B.et, B.et
@@ -441,22 +464,19 @@ melody.add F[1].e, F.s, F.s, F.e, F.s, F.s, F.e, F.s, F.s, F.e, F.e
 harmony.add A[1].e, A.s, A.s, A.e, A.s, A.s, A.e, A.s, A.s, A.e, A.e
 counter_melody.add F[1].q, F[1].q, F[1].q, G[1].e, A[1].e
 
-#######
-# gather all three instruments and play them at the same time
-trio = [melody, harmony, counter_melody]
+part_3 = [melody, harmony, counter_melody]
 
-time = Time.now.to_i + 5
+# gather all four (7) patterns and play them
+zelda = [intro, part_1, part_2, part_3, part_1, part_2, part_3]
 
-trio.map do |instrument|
-  Thread.new do |t|
-    t.priority = 99
-    loop do
-      # sync starting of threads to five seconds from now
-      # in case we're not done loading everything.
-      if Time.now.to_i.eql? time
-        instrument.play and break
-      end
+
+zelda.map do |pattern|
+  pattern.map do |instrument|
+    Thread.new do
+      instrument.play
     end
-  end
-end.map(&:join)
+  end.map(&:join)
+end
+
+# fin
 
