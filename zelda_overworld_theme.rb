@@ -120,8 +120,9 @@ module ArrayContainer
   attr_accessor :container
 
   # this allows us to easily call mutable array methods on classes without
-  # having to sub-class 'Array'. dangerous, yes, but this is just a MIDI
-  # sandbox and we're responsible adults.
+  # having to sub-class 'Array' and worry about building an 'Array' instead of
+  # a 'MyArray'. dangerous, yes, but this is just a MIDI sandbox and we're
+  # responsible adults.
 
   # ...right?
   def method_missing(method, *opts, &block)
@@ -247,9 +248,9 @@ class Sequence
   #        => [C, Ef, G, C[1]]         (Cm Arpeggio)
   #
   #    example:
-  #      sequence [C, E, G, C[1]]      (CMaj Arpeggio)
-  #      key change [0, -1, 0, 0]
-  #        => [C, Ef, G, C[1]]         (Cm Arpeggio)
+  #      sequence [C, E, G, B]         (CMaj7 Arpeggio)
+  #      key change [0, -1]
+  #        => [C, Ef, G, As]           (Cm7 Arpeggio)
   def key=(key)
     key.push(*key.dup) until key.count >= self.count
 
