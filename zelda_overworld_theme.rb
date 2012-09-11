@@ -265,7 +265,7 @@ class Instrument
 
   attr_accessor :voice, :key, :song
 
-  # creating an instrument requires key offset. by default, instruments will
+  # creating an instrument requires a key offset. by default, instruments will
   # use the first available MIDI voice (this can be changed after creation)
   #
   # example:
@@ -467,16 +467,20 @@ counter_melody.add F[1].q, F[1].q, F[1].q, G[1].e, A[1].e
 
 part_3 = [melody, harmony, counter_melody]
 
-# gather all four (7) patterns and play them
-zelda = [intro, part_1, part_2, part_3, part_1, part_2, part_3]
+# play intro
+intro.map { |intro| Thread.new { intro.play } }.map(&:join)
 
+# gather all 3 parts and play them twice
+main = [part_1, part_2, part_3]
 
-zelda.map do |pattern|
-  pattern.map do |instrument|
-    Thread.new do
-      instrument.play
-    end
-  end.map(&:join)
+2.times do
+  main.map do |pattern|
+    pattern.map do |part|
+      Thread.new do
+        part.play
+      end
+    end.map(&:join)
+  end
 end
 
 # fin
